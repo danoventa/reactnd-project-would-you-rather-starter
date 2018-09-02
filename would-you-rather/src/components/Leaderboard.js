@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 
@@ -11,7 +11,7 @@ class Leaderboard extends Component {
         }
 
         const scores = Object.keys(users).map((user) => {
-            const answered = Object.keys(Object.keys(users[user].answers).length);
+            const answered = Object.keys(users[user].answers).length;
             const created = users[user].questions.length;
             const score = answered + created;
 
@@ -22,12 +22,21 @@ class Leaderboard extends Component {
                     score,
             }}).sort((a, b) => b.score - a.score);
 
+        console.log(scores);
 
+
+        const leaderlist = Object.keys(scores).map((score) => {
+            return <li key={score}>
+                {scores[score].user} => {scores[score].answered} + {scores[score].created} = {scores[score].score}
+            </li>
+        });
 
         return (
-            <div>
-                Leaderboard
-            </div>
+            <Fragment>
+                <ul>
+                    {scores && leaderlist}
+                </ul>
+            </Fragment>
         )
     }
 }
