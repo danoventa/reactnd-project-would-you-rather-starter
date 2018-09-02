@@ -1,12 +1,21 @@
 import React, {Component, Fragment} from 'react';
-import connect from "react-redux/es/connect/connect";
+import {connect} from "react-redux";
 
 class Questions extends Component {
 
     render() {
-        const { questions } = this.props;
-        const questionsList = Object.keys(questions).map((question) => {
-            return <li key={question}>{ questions[question].author } {questions[question].timestamp} </li>
+        const { questions, user } = this.props;
+
+        const filter = this.props.filter;
+
+        const quests = (!! questions && filter)
+            ? filter(user.user, questions)
+            : questions;
+
+        const questionsList = Object.keys(quests).map((question) => {
+            return <li key={question}>
+                {quests[question].author}
+            </li>
         });
 
         return (
@@ -19,9 +28,10 @@ class Questions extends Component {
     }
 }
 
-function mapStateToProps({questions}){
+function mapStateToProps({questions, user}){
     return {
-        questions
+        questions,
+        user
     }
 }
 
