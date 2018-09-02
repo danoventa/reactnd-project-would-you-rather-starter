@@ -19,9 +19,11 @@ export function handleAddQuestion (optionOne, optionTwo){
         return saveQuestion({
             optionOne,
             optionTwo,
-            author: user
+            author: user.user
         })
-            .then((question) => dispatch(addQuestion(question)))
+            .then((question) => {
+                dispatch(addQuestion(question))
+            })
             .then(() => dispatch(hideLoading()));
     }
 }
