@@ -2,7 +2,22 @@ import React, {Component, Fragment} from 'react';
 import { connect } from 'react-redux';
 import Questions from '../../Questions'
 
+const ANSWERED ='ANSWERED';
+const UNANSWERED = 'UNANSWERED';
+
 class MyQuestions extends Component {
+    state = {
+        view: ANSWERED,
+    };
+
+    onClick = (e) =>  {
+        const view = e.target.id;
+
+        this.setState(() => ({
+            view,
+        }));
+    };
+
     answeredFilter (user, questions) {
 
         return Object.keys(questions).filter((question) =>
@@ -20,12 +35,20 @@ class MyQuestions extends Component {
     }
 
     render() {
+        const view = this.state.view;
+
         return (
             <Fragment>
-                Answered
-                <Questions filter={this.answeredFilter}/>
-                Unanswered
-                <Questions filter={this.unansweredFilter}/>
+                <nav className="nav">
+                    <ul>
+                        <li id={ANSWERED} onClick={this.onClick}>Answered</li>
+                        <li id={UNANSWERED} onClick={this.onClick}>Unanswered</li>
+                    </ul>
+                </nav>
+                { view === ANSWERED
+                    ? <Questions filter={this.answeredFilter}/>
+                    : <Questions filter={this.unansweredFilter}/>
+                }
             </Fragment>
         )
     }
