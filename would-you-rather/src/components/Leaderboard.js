@@ -4,12 +4,25 @@ import {Redirect} from "react-router-dom";
 
 class Leaderboard extends Component {
     render() {
-        const { user } = this.props;
+        const { user, users } = this.props;
 
         if ( !!user && !user.user ){
-            console.log('redirects');
             return <Redirect to='/'/>
         }
+
+        const scores = Object.keys(users).map((user) => {
+            const answered = Object.keys(Object.keys(users[user].answers).length);
+            const created = users[user].questions.length;
+            const score = answered + created;
+
+            return {
+                    user,
+                    answered,
+                    created,
+                    score,
+            }}).sort((a, b) => b.score - a.score);
+
+
 
         return (
             <div>
@@ -19,9 +32,10 @@ class Leaderboard extends Component {
     }
 }
 
-function mapStateToProps({user}) {
+function mapStateToProps({user, users}) {
     return {
-        user
+        user,
+        users
     }
 }
 
