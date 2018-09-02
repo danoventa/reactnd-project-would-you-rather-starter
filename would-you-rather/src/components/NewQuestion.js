@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import {Redirect} from "react-router-dom";
 import {connect} from "react-redux";
-import {handleAddQuestion} from "../actions/questions";
+import {handleAddQuestion} from "../actions/shared";
 
 class NewQuestion extends Component {
     state = {
         optionOne: '',
         optionTwo: '',
+        toHome:false,
     };
 
     handleOptionOne = (e) => {
@@ -36,38 +37,39 @@ class NewQuestion extends Component {
         this.setState(() => ({
                 optionOne: '',
                 optionTwo: '',
+                toHome: true,
             })
-        )
+        );
     };
 
     render() {
         const {user} = this.props;
-        const {optionOne, optionTwo} = this.state;
+        const {optionOne, optionTwo, toHome} = this.state;
 
-        if ( !!user && !user.user){
+        if ( (!!user && !user.user) || toHome){
             return <Redirect to='/'/>
         }
 
         return (
             <div>
-                <form className='new' onSubmit={this.handleSubmit}>
+                <form className='new-question' onSubmit={this.handleSubmit}>
                     <label>
                         Would you rather...
-                        <textarea
+                        <div><textarea
                             placeholder="option one"
                             value={optionOne}
                             onChange={this.handleOptionOne}
                             className="textarea"
                             maxLength={120}
-                        />
+                        /></div>
                         Or...
-                        <textarea
+                        <div><textarea
                             placeholder="option two"
                             value={optionTwo}
                             onChange={this.handleOptionTwo}
                             className="textarea"
                             maxLength={120}
-                        />
+                        /></div>
                         <button
                             className='btn'
                             type='submit'

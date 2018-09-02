@@ -7,7 +7,7 @@ const UNANSWERED = 'UNANSWERED';
 
 class MyQuestions extends Component {
     state = {
-        view: ANSWERED,
+        view: UNANSWERED,
     };
 
     onClick = (e) =>  {
@@ -37,12 +37,18 @@ class MyQuestions extends Component {
     render() {
         const view = this.state.view;
 
+        const style = (v) => {
+            return v === view
+                ? { 'fontWeight': 'bold', 'color': 'purple' }
+                : { 'fontWeight': 'normal' };
+        };
+
         return (
             <Fragment>
                 <nav className="nav">
                     <ul>
-                        <li id={ANSWERED} onClick={this.onClick}>Answered</li>
-                        <li id={UNANSWERED} onClick={this.onClick}>Unanswered</li>
+                        <li id={UNANSWERED} style={style(UNANSWERED)} onClick={this.onClick}>Unanswered</li>
+                        <li id={ANSWERED} style={style(ANSWERED)} onClick={this.onClick}>Answered</li>
                     </ul>
                 </nav>
                 { view === ANSWERED

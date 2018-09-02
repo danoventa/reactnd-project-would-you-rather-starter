@@ -1,12 +1,18 @@
 import React, {Component, Fragment} from 'react';
-import { NavLink } from 'react-router-dom';
+import {NavLink, withRouter} from 'react-router-dom';
 import { connect } from "react-redux";
 import Logout from "./components/Logout";
 
 class Navigation extends Component {
     render() {
-        const {user} = this.props;
-        console.log(user);
+        const {user, users, location} = this.props;
+        const {pathname} = location;
+
+        const style = (p) => {
+            return pathname === p
+                ? { 'fontWeight': 'bold', 'color': 'purple'}
+                : { 'fontWeight': 'normal' };
+        };
 
         return (
             <nav className="nav">
@@ -15,23 +21,24 @@ class Navigation extends Component {
                         ?
                         <Fragment>
                             <li>
-                                <NavLink to='/' exact activeClassName='active'>
+                                <NavLink to='/' style={style('/')} exact >
                                     Home
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to='/new' activeClassName='active'>
+                                <NavLink to='/add' style={style('/add')}>
                                     New Question
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to='/leaderboard' activeClassName='active'>
+                                <NavLink to='/leaderboard' style={style('/leaderboard')} >
                                     Leaderboard
                                 </NavLink>
                             </li>
-                            <li>
+                            <li >
                                 <Logout/>
                             </li>
+                            <li style={{'fontWeight': 'bold'}}>{users[user.user].name}</li>
                         </Fragment>
                         : null
                     }
@@ -41,10 +48,11 @@ class Navigation extends Component {
     }
 }
 
-function mapStateToProps ({user}) {
+function mapStateToProps ({user, users}) {
     return ({
         user,
+        users,
     })
 }
 
-export default connect(mapStateToProps)(Navigation);
+export default withRouter(connect(mapStateToProps)(Navigation));

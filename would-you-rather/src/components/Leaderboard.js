@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
+import Image from "./Image";
 
 class Leaderboard extends Component {
     render() {
@@ -22,12 +23,17 @@ class Leaderboard extends Component {
                     score,
             }}).sort((a, b) => b.score - a.score);
 
-        console.log(scores);
-
-
         const leaderlist = Object.keys(scores).map((score) => {
-            return <li key={score}>
-                {scores[score].user} => {scores[score].answered} + {scores[score].created} = {scores[score].score}
+            return <li key={scores[score].user}>
+                <div className='leaderboard'>
+                    <Image author={scores[score].user}/>
+                    <div >
+                        {scores[score].user} is ranked # {+score + 1}
+                        <div>Questions answered: {scores[score].answered}</div>
+                        <div>Questions created: {scores[score].created}</div>
+                        <div>Total score: {scores[score].score}</div>
+                    </div>
+                </div>
             </li>
         });
 

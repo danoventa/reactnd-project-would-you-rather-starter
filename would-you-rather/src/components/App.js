@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 import LoadingBar from 'react-redux-loading';
 
 import Navigation from './Navigation/Navigation';
@@ -22,13 +22,13 @@ class App extends Component {
               <Fragment>
                   <div className="container">
                       { !!this.props.user
-                          ? <Fragment>
+                          ? <div>
                               <Navigation/>
                               <Route path='/' exact component={Home}/>
-                              <Route path='/new' component={NewQuestion}/>
+                              <Route path='/add' component={NewQuestion}/>
                               <Route path='/leaderboard' component={Leaderboard}/>
                               <Route path='/question/:id' copmonent={Question}/>
-                          </Fragment>
+                          </div>
                           : <LoadingBar/>
                       }
                   </div>

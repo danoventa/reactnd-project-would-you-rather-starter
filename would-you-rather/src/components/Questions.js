@@ -1,5 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
+import Image from "./Image";
+import { Link } from "react-router-dom";
 
 class Questions extends Component {
 
@@ -8,15 +10,25 @@ class Questions extends Component {
 
         const filter = this.props.filter;
 
-        const quests = (!! questions && filter)
+        const quests = ((!! questions && filter)
             ? filter(user.user, questions)
-            : questions;
+            : questions).sort((a, b) =>  b.timestamp - a.timestamp);
 
-        const questionsList = Object.keys(quests).map((question) => {
-            return <li key={question}>
-                {quests[question].author}
-            </li>
-        });
+        const questionsList = Object.keys(quests)
+            .map((question) => {
+                return (
+                    <li key={question}>
+                        <Link to={`/question/${question}`}>
+                            <div className={'stub'}>
+                                <Image author={quests[question].author}/>
+                                <div>
+                                    Would you rather { quests[question].optionOne.text } or { quests[question].optionTwo.text }?
+                                </div>
+                            </div>
+                        </Link>
+                    </li>
+                )}
+        );
 
         return (
             <Fragment>
