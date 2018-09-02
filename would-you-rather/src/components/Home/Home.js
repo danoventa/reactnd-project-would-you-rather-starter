@@ -2,16 +2,27 @@ import React, { Component } from 'react';
 
 import Login from "./components/Login";
 import MyQuestions from "./components/MyQuestions";
+import connect from "react-redux/es/connect/connect";
 
 class Home extends Component {
     render() {
+        const {user} = this.props;
+
         return (
             <div>
-                <Login />
-                <MyQuestions />
+                { user && ! user.user !== false
+                    ? <Login />
+                    : <MyQuestions />
+                }
             </div>
         )
     }
 }
 
-export default Home;
+function mapStateToProps({user}) {
+    return {
+        user
+    }
+}
+
+export default connect(mapStateToProps)(Home);

@@ -1,13 +1,22 @@
-import React, { Component } from 'react';
+import React, {Component, Fragment} from 'react';
+import { connect } from 'react-redux';
+import Questions from '../../Questions'
 
 class MyQuestions extends Component {
     render() {
         return (
-            <div>
-                My Questions
-            </div>
+            <Fragment>
+                <Questions/>
+            </Fragment>
         )
     }
 }
 
-export default MyQuestions;
+function mapStateToProps({user, questions}){
+    return {
+        user,
+        questions
+    }
+}
+
+export default connect(mapStateToProps)(MyQuestions);

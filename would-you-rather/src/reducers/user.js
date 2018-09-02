@@ -5,7 +5,7 @@ export default function user (state = {}, action ) {
         case SET_USER:
             return {
                 ...state,
-                ...action.id
+                user: action.id,
             };
         default:
             return state;
