@@ -21,19 +21,14 @@ export default function users (state = {}, action){
                 }
             };
         case ADD_USER_ANSWER:
-            console.log(action);
-
-            const { userAnswer } = action;
-            const { user, questionId} = userAnswer;
-
-
-            const answered = state[author].answered;
+            const { user, qid, answer} = action.answer;
 
             return {
                 ...state,
                 [user]: {
                     ...state[user],
-                    answered: answered.concat([questionId])
+                    ...state[user].answers,
+                    [qid]: answer
                 }
             };
         default:
