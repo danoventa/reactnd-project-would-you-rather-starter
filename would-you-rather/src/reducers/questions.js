@@ -1,4 +1,4 @@
-import { ADD_QUESTION, GET_QUESTIONS } from "../actions/questions";
+import { ADD_QUESTION, GET_QUESTIONS, ADD_QUESTION_ANSWER } from "../actions/questions";
 
 export default function questions (state = {}, action){
     switch(action.type){
@@ -11,10 +11,22 @@ export default function questions (state = {}, action){
             const { question } = action;
             const { id } = question;
 
-
             return {
                 ...state,
                 [id]: question,
+            };
+        case ADD_QUESTION_ANSWER:
+            const { userAnswer } = action;
+            const { questionid, user, answer } = userAnswer;
+
+            const x = state[questionid][answer].votes;
+            const y = state[questionid][answer].votes;
+            
+            console.log(x);
+            console.log(y);
+
+            return {
+                ...state,
             };
         default:
             return state;

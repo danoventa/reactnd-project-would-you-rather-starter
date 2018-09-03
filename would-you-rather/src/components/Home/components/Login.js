@@ -50,7 +50,6 @@ class Login extends Component {
                         </select>
                     </label>
                     <button
-                        className='btn'
                         type='submit'>
                             Login
                     </button>

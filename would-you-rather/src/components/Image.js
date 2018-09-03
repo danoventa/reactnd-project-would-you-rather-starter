@@ -17,9 +17,9 @@ class Image extends Component {
     }
 }
 
-function mapStateToProps({user, users}){
+function mapStateToProps({users}){
     return {
-        user, users,
+        users,
     }
 }
 

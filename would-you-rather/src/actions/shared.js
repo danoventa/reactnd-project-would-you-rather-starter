@@ -1,8 +1,8 @@
 import { showLoading, hideLoading } from 'react-redux-loading';
 
-import {getInitialData, saveQuestion} from "../utils/api";
-import {addUserQuestion, getUsers} from "./users";
-import {getQuestions, addQuestion} from "./questions";
+import {getInitialData, saveQuestion, saveQuestionAnswer} from "../utils/api";
+import {addUserAnswer, addUserQuestion, getUsers} from "./users";
+import {getQuestions, addQuestion, addQuestionAnswer} from "./questions";
 
 export function handleInitialData(){
     return (dispatch) => {
@@ -30,6 +30,26 @@ export function handleAddQuestion (optionOneText, optionTwoText){
             .then((question) => {
                 dispatch(addQuestion(question));
                 dispatch(addUserQuestion(question));
+            })
+            .then(() => dispatch(hideLoading()));
+    }
+}
+
+export function handleAddAnswer(questionId, answer){
+    return (dispatch, getState) => {
+        const {user} = getState();
+        dispatch(showLoading());
+
+        const userAnswer = {
+            user: user.user,
+            qid: questionId,
+            answer,
+        };
+
+        return saveQuestionAnswer(userAnswer)
+            .then(() => {
+                dispatch(addUserAnswer(userAnswer));
+                dispatch(addQuestionAnswer(userAnswer));
             })
             .then(() => dispatch(hideLoading()));
     }

@@ -17,8 +17,8 @@ class Questions extends Component {
         const questionsList = Object.keys(quests)
             .map((question) => {
                 return (
-                    <li key={question}>
-                        <Link to={`/question/${question}`}>
+                    <li key={quests[question].id}>
+                        <Link to={`/question/${quests[question].id}`}>
                             <div className={'stub'}>
                                 <Image author={quests[question].author}/>
                                 <div>
@@ -47,4 +47,4 @@ function mapStateToProps({questions, user}){
     }
 }
 
-export default connect(mapStateToProps) (Questions);
+export default connect(mapStateToProps)(Questions);
