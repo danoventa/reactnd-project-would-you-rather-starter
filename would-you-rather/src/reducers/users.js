@@ -22,13 +22,29 @@ export default function users (state = {}, action){
             };
         case ADD_USER_ANSWER:
             const { user, qid, answer} = action.answer;
+            console.log('before');
+            console.log(state);
+
+            console.log('after');
+            console.log( {
+                ...state,
+                [user]: {
+                    ...state[user],
+                    answers: {
+                        ...state[user].answers,
+                        [qid]: answer
+                    }
+                }
+            });
 
             return {
                 ...state,
                 [user]: {
                     ...state[user],
-                    ...state[user].answers,
-                    [qid]: answer
+                    answers: {
+                        ...state[user].answers,
+                        [qid]: answer
+                    }
                 }
             };
         default:
