@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import {Redirect} from "react-router-dom";
 import {connect} from "react-redux";
 import {handleAddQuestion} from "../actions/shared";
+import Login from "./Home/components/Login";
+import {withRouter} from "react-router-dom";
 
 class NewQuestion extends Component {
     state = {
         optionOne: '',
         optionTwo: '',
-        toHome:false,
     };
 
     handleOptionOne = (e) => {
@@ -34,50 +34,50 @@ class NewQuestion extends Component {
 
         dispatch(handleAddQuestion(optionOne, optionTwo));
 
+        this.props.history.push('/');
+
         this.setState(() => ({
                 optionOne: '',
                 optionTwo: '',
-                toHome: true,
             })
         );
     };
 
     render() {
         const {user} = this.props;
-        const {optionOne, optionTwo, toHome} = this.state;
-
-        if ( (!!user && !user.user) || toHome){
-            return <Redirect to='/'/>
-        }
+        const {optionOne, optionTwo} = this.state;
 
         return (
             <div>
-                <form className='new-question' onSubmit={this.handleSubmit}>
-                    <label>
-                        Would you rather...
-                        <div><textarea
-                            placeholder="option one"
-                            value={optionOne}
-                            onChange={this.handleOptionOne}
-                            className="textarea"
-                            maxLength={120}
-                        /></div>
-                        Or...
-                        <div><textarea
-                            placeholder="option two"
-                            value={optionTwo}
-                            onChange={this.handleOptionTwo}
-                            className="textarea"
-                            maxLength={120}
-                        /></div>
-                        <button
-                            className='btn'
-                            type='submit'
-                            disabled={ !optionOne && !optionTwo}>
-                            Submit
-                        </button>
-                    </label>
-                </form>
+                {user && !user.user !== false
+                    ? <Login/>
+                    : <form className='new-question' onSubmit={this.handleSubmit}>
+                        <label>
+                            Would you rather...
+                            <div><textarea
+                                placeholder="option one"
+                                value={optionOne}
+                                onChange={this.handleOptionOne}
+                                className="textarea"
+                                maxLength={120}
+                            /></div>
+                            Or...
+                            <div><textarea
+                                placeholder="option two"
+                                value={optionTwo}
+                                onChange={this.handleOptionTwo}
+                                className="textarea"
+                                maxLength={120}
+                            /></div>
+                            <button
+                                className='btn'
+                                type='submit'
+                                disabled={!optionOne && !optionTwo}>
+                                Submit
+                            </button>
+                        </label>
+                    </form>
+                }
             </div>
         )
     }
@@ -89,4 +89,4 @@ function mapStateToProps({user}){
     }
 }
 
-export default connect(mapStateToProps)(NewQuestion);
+export default withRouter(connect(mapStateToProps)(NewQuestion));

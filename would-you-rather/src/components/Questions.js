@@ -18,7 +18,7 @@ class Questions extends Component {
             .map((question) => {
                 return (
                     <li key={quests[question].id}>
-                        <Link to={`/question/${quests[question].id}`}>
+                        <Link to={`/questions/${quests[question].id}`}>
                             <div className={'stub'}>
                                 <Image author={quests[question].author}/>
                                 <div>

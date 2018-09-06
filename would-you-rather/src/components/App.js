@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import LoadingBar from 'react-redux-loading';
 
 import Navigation from './Navigation/Navigation';
@@ -10,10 +10,13 @@ import Leaderboard from "./Leaderboard";
 import Question from "./Question/Question";
 
 import { handleInitialData } from "../actions/shared";
+import Error404 from "./Error404";
 
 class App extends Component {
     componentDidMount(){
-        this.props.dispatch(handleInitialData());
+        if(!!this.props.users && !Object.keys(this.props.users).length > 0){
+            this.props.dispatch(handleInitialData())
+        }
     }
 
   render() {
@@ -21,13 +24,16 @@ class App extends Component {
           <Router>
               <Fragment>
                   <div className="container">
-                      { !!this.props.user
+                      { !! this.props.user
                           ? <div>
                               <Navigation/>
-                              <Route path='/' exact component={Home}/>
-                              <Route path='/add' component={NewQuestion}/>
-                              <Route path='/leaderboard' component={Leaderboard}/>
-                              <Route path='/question/:id' component={Question}/>
+                              <Switch>
+                                  <Route path='/' exact component={Home}/>
+                                  <Route path='/add' component={NewQuestion}/>
+                                  <Route path='/leaderboard' component={Leaderboard}/>
+                                  <Route path='/questions/:id' component={Question}/>
+                                  <Route component={Error404}/>
+                              </Switch>
                           </div>
                           : <LoadingBar/>
                       }
@@ -38,9 +44,10 @@ class App extends Component {
   }
 }
 
-function mapStateToProps({user}){
+function mapStateToProps({user, users}){
     return {
         user,
+        users
     }
 }
 

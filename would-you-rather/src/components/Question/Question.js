@@ -2,8 +2,9 @@ import React, {Component, Fragment} from 'react';
 import { connect } from "react-redux";
 import Poll from "./components/Poll";
 import Ask from "./components/Ask";
-import Link from "react-router-dom/es/Link";
 import Image from "../Image";
+import Login from "../Home/components/Login";
+import Error404 from "../Error404";
 
 class Question extends Component {
     render() {
@@ -16,17 +17,31 @@ class Question extends Component {
         };
 
         const question = () => {
+            if(!questions[id]){
+                return {};
+            }
             return {
                 ...questions[id],
                 user
             }
         };
 
+        const isEmptyQuestion = (question) => {
+            return JSON.stringify(question) === JSON.stringify({});
+        };
+
         const generateQuestion = (question) => {
+
+            if(isEmptyQuestion(question)){
+                return <Error404/>
+            }
+
             const component = () => {
-                return answered()
-                    ? <Poll question={question}/>
-                    : <Ask question={question}/>
+                return user && !user.user !== false
+                ?  <Login/>
+                    :answered()
+                        ? <Poll question={question}/>
+                        : <Ask question={question}/>
             };
 
 
@@ -38,10 +53,7 @@ class Question extends Component {
 
         return (
             <Fragment>
-                { (! user || ! user.user)
-                    ? <Link to='/'> ERROR 404, Click here to Login </Link>
-                    : generateQuestion(question())
-                }
+                {generateQuestion(question())}
             </Fragment>
         )
     }

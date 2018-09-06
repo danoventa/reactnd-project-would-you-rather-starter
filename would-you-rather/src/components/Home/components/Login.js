@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { setUser } from "../../../actions/user";
+import {withRouter} from "react-router-dom";
 
 
 class Login extends Component {
@@ -22,6 +23,12 @@ class Login extends Component {
         const { dispatch } = this.props;
 
         dispatch(setUser(user));
+
+        console.log(this.props);
+
+        if(this.props.errors === true){
+            this.props.history.push('/');
+        }
 
         this.setState(() => ({
                 user: "",
@@ -66,4 +73,4 @@ function mapStateToProps({user, users}){
     }
 }
 
-export default connect(mapStateToProps)(Login);
+export default withRouter(connect(mapStateToProps)(Login));

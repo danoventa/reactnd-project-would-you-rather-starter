@@ -10,7 +10,7 @@ class Home extends Component {
 
         return (
             <div>
-                { user && ! user.user !== false
+                { !! user && ! user.user
                     ? <Login />
                     : <MyQuestions />
                 }

@@ -1,15 +1,11 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
-import {Redirect} from "react-router-dom";
 import Image from "./Image";
+import Login from "./Home/components/Login";
 
 class Leaderboard extends Component {
     render() {
         const { user, users } = this.props;
-
-        if ( !!user && !user.user ){
-            return <Redirect to='/'/>
-        }
 
         const scores = Object.keys(users).map((user) => {
             const answered = Object.keys(users[user].answers).length;
@@ -39,9 +35,12 @@ class Leaderboard extends Component {
 
         return (
             <Fragment>
-                <ul>
-                    {scores && leaderlist}
-                </ul>
+                {user && !user.user !== false
+                    ? <Login/>
+                    : <ul>
+                        {scores && leaderlist}
+                     </ul>
+                }
             </Fragment>
         )
     }
