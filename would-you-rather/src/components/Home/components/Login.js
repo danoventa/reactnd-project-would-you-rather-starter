@@ -20,14 +20,11 @@ class Login extends Component {
         e.preventDefault();
 
         const { user } = this.state;
-        const { dispatch } = this.props;
+        const { dispatch, id, questions} = this.props;
 
         dispatch(setUser(user));
-
-        console.log(this.props);
-
-        if(this.props.errors === true){
-            this.props.history.push('/');
+        if(id && !!questions[id] === false){
+            this.props.history.push('/error');
         }
 
         this.setState(() => ({
@@ -66,10 +63,14 @@ class Login extends Component {
     }
 }
 
-function mapStateToProps({user, users}){
+function mapStateToProps({questions, user, users}, props){
+    const {id} = props.match.params;
+
     return {
         user,
-        users
+        users,
+        id,
+        questions,
     }
 }
 

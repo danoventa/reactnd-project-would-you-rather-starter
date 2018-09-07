@@ -20,26 +20,29 @@ class App extends Component {
     }
 
   render() {
+      const {user} = this.props;
+
       return (
-          <Router>
               <Fragment>
-                  <div className="container">
-                      { !! this.props.user
-                          ? <div>
-                              <Navigation/>
-                              <Switch>
-                                  <Route path='/' exact component={Home}/>
-                                  <Route path='/add' component={NewQuestion}/>
-                                  <Route path='/leaderboard' component={Leaderboard}/>
-                                  <Route path='/questions/:id' component={Question}/>
-                                  <Route component={Error404}/>
-                              </Switch>
-                          </div>
-                          : <LoadingBar/>
-                      }
-                  </div>
+                  <Router>
+                      <div className="container">
+                          { !! user
+                              ? <div>
+                                  <Navigation/>
+                                  <Switch>
+                                      <Route path='/' exact component={Home}/>
+                                      <Route path='/add' component={NewQuestion}/>
+                                      <Route path='/leaderboard' component={Leaderboard}/>
+                                      <Route path='/questions/:id' component={Question}/>
+                                      <Route path='/error' exact component={Error404}/>
+                                      <Route component={Error404}/>
+                                  </Switch>
+                              </div>
+                              : <LoadingBar/>
+                          }
+                      </div>
+                  </Router>
               </Fragment>
-          </Router>
       );
   }
 }

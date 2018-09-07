@@ -1,13 +1,25 @@
-import React from 'react';
+import React, {Component, Fragment} from 'react';
 import Login from "./Home/components/Login";
+import connect from "react-redux/es/connect/connect";
 
-const Error404 = () => {
-    return (
-        <div>
-            <Login errors={true}/>
-            Error 404, the question in question does not exist.
-        </div>
-    )
-};
+class Error404 extends Component {
+    render(){
+        const { user } = this.props;
+        return (
+            <Fragment>
+                {!!user && !user.user
+                    ? <Login/>
+                    : <p>Error 404, the question in question does not exist.</p>
+                }
+            </Fragment>
+        )
+    }
+}
 
-export default Error404;
+function mapStateToProps ({user}) {
+    return {
+        user,
+    }
+}
+
+export default connect(mapStateToProps)(Error404);

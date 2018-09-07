@@ -3,23 +3,28 @@ import {connect} from 'react-redux';
 
 class Image extends Component {
     render() {
-        const {author, users} = this.props;
+        const {author, users, user} = this.props;
 
         return (
             <Fragment>
-                <img
-                    src={users[author].avatarURL}
-                    alt={users[author].username}
-                    className={'avatar'}
-                />
+                {!!user && !!user.user
+                    ? <img
+                        src={users[author].avatarURL}
+                        alt={users[author].username}
+                        className={'avatar'}
+                    />
+                    : null
+                }
+
             </Fragment>
         )
     }
 }
 
-function mapStateToProps({users}){
+function mapStateToProps({users, user}){
     return {
         users,
+        user
     }
 }
 
